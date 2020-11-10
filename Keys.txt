@@ -1,0 +1,11 @@
+public key:
+
+ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAy0Aoaf48rlXyUetX/LWEBc//2n9phhnxoSyLvJVcVmx3PR6O/0YT0kaeV3klPEJvHA9zjpDkaagaYJKdwyIhD3gDHrdQtkcZjNPHZAH8xnbeK82b3WU2vGR6jiIlngbKaBGHGAO4y9vqxqTXAd5snMaMulyPnqE1EIW3WsyqoJzVrBeslH/hjPomjJXDg8TFhYuVFHd3HfNFmpBq3Jw/zDdEkTc0syEQaMkJPMeFfWT51mwov3ahmW8MD4GtCt7v7O4UowkJ70CcwUfWGysrznrpdNtmhH64T0zdQanYNRx9E4L4UO+85ACYUerYBV+IoO5tHmfuKyumBmws0VYsVQ== rsa-key-20201105
+
+
+------------------------------------------------------------------------------------------
+
+finger print: ssh-rsa 2048 88:00:19:57:6c:96:98:ec:0a:0f:5d:f7:db:52:ff:fb
+
+key comment: rsa-key-20201105
+

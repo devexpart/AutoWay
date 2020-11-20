@@ -1,0 +1,90 @@
+﻿@model RegistrationViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    @if (TempData["validationmessage"] != null)
+    {
+        string alertType = "alert alert-" + TempData["alertType"];
+        <div class="@alertType">
+            <strong>Alert!</strong> @TempData["validationmessage"]
+        </div>
+    }
+</div>
+<h2 class="text-center">Registar</h2>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="jumbotron">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <form role="form" asp-action="Registar" asp-controller="Account" method="post">
+
+                <div class="form-group">
+                    <label for="Name">User Name</label>
+                    <input type="text" name="Username" asp-for="Username" class="form-control input-sm" autocomplete="off" data-val="true" data-val-required="The Username field is required." placeholder="Username">
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FirstName"></label>
+                    <input type="text" name="FirstName" data-val="true" autocomplete="off" data-val-required="The FirstName field is required." asp-for="FirstName" class="form-control input-sm" placeholder="First Name">
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LastName"></label>
+                    <input type="text" name="LastName" data-val="true" autocomplete="off" data-val-required="The LastName field is required." asp-for="LastName" class="form-control input-sm" placeholder="Last Name">
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="email" name="Email" asp-for="Email" autocomplete="off" data-val="true" class="form-control input-sm" data-val-required="The Email field is required." placeholder="Email Address">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Gender"></label>
+                    <input type="text" name="gender" data-val="true" autocomplete="off" data-val-required="The Gender field is required." asp-for="Gender" class="form-control input-sm" placeholder="Gender">
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PhoneNumber"></label>
+                    <input type="text" name="PhoneNumber" data-val="true" autocomplete="off" data-val-required="The PhoneNumber field is required." asp-for="PhoneNumber" class="form-control input-sm" placeholder="Phone Number">
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Address"></label>
+                    <input type="text" name="address" data-val="true" autocomplete="off" data-val-required="The Address field is required." asp-for="Address" class="form-control input-sm" placeholder="Address">
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="City"></label>
+                    <input type="text" name="city" data-val="true" autocomplete="off" data-val-required="The City field is required." asp-for="City" class="form-control input-sm" placeholder="City">
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="Password">Password</label>
+                    <input type="password" name="Password" asp-for="Password" autocomplete="off" class="form-control input-sm" data-val="true" data-val-required="The Password field is required." placeholder="Password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="ConfirmPassword">Password</label>
+                    <input type="password" name="ConfirmPassword" asp-for="ConfirmPassword" autocomplete="off" class="form-control input-sm" placeholder="ConfirmPassword">
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                <input type="submit" value="Register" class="btn btn-info btn-block">
+                <input name="__RequestVerificationToken" type="hidden" value="<removed for brevity>">
+            </form>
+        </div>
+    </div>
+
+</div>
+

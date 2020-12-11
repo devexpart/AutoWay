@@ -17,223 +17,228 @@ namespace AutoWay.Models
         {
         }
 
-        public virtual DbSet<TbVhclImg> TbVhclImgs { get; set; }
-        public virtual DbSet<TblUser> TblUsers { get; set; }
-        public virtual DbSet<TblUserType> TblUserTypes { get; set; }
-        public virtual DbSet<TblVehicle> TblVehicles { get; set; }
-        public virtual DbSet<TblVehicleType> TblVehicleTypes { get; set; }
+        public virtual DbSet<Owner> Owners { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserPassword> UserPasswords { get; set; }
+        public virtual DbSet<UserType> UserTypes { get; set; }
+        public virtual DbSet<Vehicle> Vehicles { get; set; }
+        public virtual DbSet<VehicleImage> VehicleImages { get; set; }
+        public virtual DbSet<VehicleType> VehicleTypes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#pragma warning disable CS1030 // #warning directive
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-48LB9LF\\SQLEXPRESS;Database=AutoWay;Trusted_Connection=True;");
-#pragma warning restore CS1030 // #warning directive
+                optionsBuilder.UseSqlServer("Server=DESKTOP-48LB9LF\\SQLEXPRESS;Database=AutoWay;Trusted_Connection=True;MultipleActiveResultSets=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TbVhclImg>(entity =>
+            modelBuilder.Entity<Owner>(entity =>
             {
-                entity.ToTable("tb_vhcl_img");
+                entity.ToTable("Owner");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Address).IsUnicode(false);
+
+                entity.Property(e => e.Contact).IsUnicode(false);
+
+                entity.Property(e => e.CreatedAt).IsUnicode(false);
+
+                entity.Property(e => e.OwnerFname)
+                    .IsUnicode(false)
+                    .HasColumnName("OwnerFName");
+
+                entity.Property(e => e.OwnerLname)
+                    .IsUnicode(false)
+                    .HasColumnName("OwnerLName");
+
+                entity.Property(e => e.UpdatedAt).IsUnicode(false);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Owners)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Owner_User");
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("User");
+
+                entity.Property(e => e.Address)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.City)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedAt)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Gender)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneNumber)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.UserType)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.UserTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_User_UserType");
+            });
+
+            modelBuilder.Entity<UserPassword>(entity =>
+            {
+                entity.ToTable("UserPassword");
+
+                entity.Property(e => e.AuthKey).IsUnicode(false);
+
+                entity.Property(e => e.CreatedAt).IsUnicode(false);
+
+                entity.Property(e => e.PasswordHash).IsUnicode(false);
+
+                entity.Property(e => e.PasswordResetToken).IsUnicode(false);
+
+                entity.Property(e => e.UpdatedAt).IsUnicode(false);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserPasswords)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserPassword_User");
+            });
+
+            modelBuilder.Entity<UserType>(entity =>
+            {
+                entity.ToTable("UserType");
+
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.TypeName)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Vehicle>(entity =>
+            {
+                entity.ToTable("Vehicle");
+
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.KmsDrivce)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Manufacturer)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Model)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.VehicleName)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Owner)
+                    .WithMany(p => p.Vehicles)
+                    .HasForeignKey(d => d.OwnerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Vehicle_Owner");
+
+                entity.HasOne(d => d.VehicleType)
+                    .WithMany(p => p.Vehicles)
+                    .HasForeignKey(d => d.VehicleTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Vehicle_VehicleType");
+            });
+
+            modelBuilder.Entity<VehicleImage>(entity =>
+            {
+                entity.ToTable("VehicleImage");
 
                 entity.Property(e => e.FilePath)
                     .IsRequired()
                     .IsUnicode(false)
-                    .HasColumnName("file_path");
+                    .HasColumnName("filePath");
 
-                entity.Property(e => e.VhclId).HasColumnName("vhcl_id");
+                entity.Property(e => e.UserId).HasColumnName("userId");
+
+                entity.Property(e => e.VehicleId).HasColumnName("vehicleId");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.VehicleImages)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_VehicleImage_User");
+
+                entity.HasOne(d => d.Vehicle)
+                    .WithMany(p => p.VehicleImages)
+                    .HasForeignKey(d => d.VehicleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_VehicleImage_VehicleId");
             });
 
-            modelBuilder.Entity<TblUser>(entity =>
+            modelBuilder.Entity<VehicleType>(entity =>
             {
-                entity.ToTable("tbl_user");
+                entity.ToTable("VehicleType");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
 
-                entity.Property(e => e.Address)
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.VehicleTypeName)
                     .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("address");
+                    .IsUnicode(false);
 
-                entity.Property(e => e.AuthKey)                    
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("auth_key");
-
-                entity.Property(e => e.City)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("city");
-
-                entity.Property(e => e.CreatedAt)
-                    .IsRequired()
-                    .HasMaxLength(255)              
-                    .HasColumnName("created_at");
-
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("email");
-
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("first_name");
-
-                entity.Property(e => e.Gender)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("gender");
-
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("last_name");
-
-                entity.Property(e => e.PasswordHash)                  
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("password_hash");
-
-                entity.Property(e => e.PasswordResetToken)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("password_reset_token");
-
-                entity.Property(e => e.Password)
-                      .IsRequired()
-                      .HasMaxLength(255)
-                      .IsUnicode(false)
-                      .HasColumnName("password");
-
-                entity.Property(e => e.PhoneNumber)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("phone_number");
-
-                entity.Property(e => e.Status)
-                    .HasColumnName("status")
-                    .HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.UpdatedAt)                   
-                    .HasMaxLength(255)
-                    .HasColumnName("updated_at");
-
-                entity.Property(e => e.UserTypeId).HasColumnName("user_type_id");
-
-                entity.Property(e => e.Username)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("username");
-            });
-
-            modelBuilder.Entity<TblUserType>(entity =>
-            {
-                entity.ToTable("tbl_user_type");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("created_at");
-
-                entity.Property(e => e.Status)
-                    .HasColumnName("status")
-                    .HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.TypeName)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("type_name");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("updated_at");
-            });
-
-            modelBuilder.Entity<TblVehicle>(entity =>
-            {
-                entity.ToTable("tbl_vehicle");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("created_at");
-
-                entity.Property(e => e.KmsDriven)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("kms_driven");
-
-                entity.Property(e => e.LastRentedBy).HasColumnName("last_rented_by");
-
-                entity.Property(e => e.Manufacturer)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("manufacturer");
-
-                entity.Property(e => e.Model)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("model");
-
-                entity.Property(e => e.Rent)
-                    .IsUnicode(false)
-                    .HasColumnName("rent");
-
-                entity.Property(e => e.SellingPrice)
-                    .IsUnicode(false)
-                    .HasColumnName("selling_price");
-
-                entity.Property(e => e.Status)
-                    .HasColumnName("status")
-                    .HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("updated_at");
-
-                entity.Property(e => e.VhclName)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("vhcl_name");
-
-                entity.Property(e => e.VhclTypeId).HasColumnName("vhcl_type_id");
-            });
-
-            modelBuilder.Entity<TblVehicleType>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("tbl_vehicle_type");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("created_at");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Status)
-                    .HasColumnName("status")
-                    .HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("updated_at");
-
-                entity.Property(e => e.VhclId).HasColumnName("vhcl_id");
-
-                entity.Property(e => e.VhclTypeName)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("vhcl_type_name");
+                entity.HasOne(d => d.Vehicle)
+                    .WithMany(p => p.VehicleTypes)
+                    .HasForeignKey(d => d.VehicleId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_Vehicle_VehicleID");
             });
 
             OnModelCreatingPartial(modelBuilder);

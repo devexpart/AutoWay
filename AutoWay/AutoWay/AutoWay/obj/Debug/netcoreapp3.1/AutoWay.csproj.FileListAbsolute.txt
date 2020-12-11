@@ -153,4 +153,3 @@ F:\Testing\AutoWay\AutoWay\AutoWay\obj\Debug\netcoreapp3.1\staticwebassets\AutoW
 F:\Testing\AutoWay\AutoWay\AutoWay\obj\Debug\netcoreapp3.1\AutoWay.dll
 F:\Testing\AutoWay\AutoWay\AutoWay\obj\Debug\netcoreapp3.1\AutoWay.pdb
 F:\Testing\AutoWay\AutoWay\AutoWay\obj\Debug\netcoreapp3.1\AutoWay.genruntimeconfig.cache
-F:\Testing\AutoWay\AutoWay\AutoWay\obj\Debug\netcoreapp3.1\AutoWay.csprojAssemblyReference.cache
